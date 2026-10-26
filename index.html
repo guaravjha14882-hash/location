@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Location Sharing</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #071a2f;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 400px;
+    background: #0b2540;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.icon {
+    font-size: 55px;
+}
+
+h2 {
+    color: #25d366;
+}
+
+p {
+    color: #c4d3e1;
+    line-height: 1.6;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background: #25d366;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+#result {
+    margin-top: 20px;
+    word-break: break-word;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="icon">📍</div>
+
+    <h2>Share Your Location</h2>
+
+    <p>
+        Share your current location with permission.
+        Your location will only be accessed after
+        you press the button and allow your browser.
+    </p>
+
+    <button onclick="shareLocation()">
+        Share My Location
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function shareLocation() {
+
+    const result = document.getElementById("result");
+
+    if (!navigator.geolocation) {
+        result.innerHTML =
+        "Your browser does not support location sharing.";
+        return;
+    }
+
+    result.innerHTML = "Getting your location...";
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            const mapLink =
+            `https://www.google.com/maps?q=${lat},${lon}`;
+
+            result.innerHTML = `
+                <p>Location shared successfully!</p>
+
+                <p>
+                Latitude: ${lat}<br>
+                Longitude: ${lon}
+                </p>
+
+                <a href="${mapLink}"
+                target="_blank"
+                style="color:#25d366;">
+                Open Location in Google Maps
+                </a>
+            `;
+        },
+
+        function(error) {
+
+            result.innerHTML =
+            "Location permission denied or unavailable.";
+
+        }
+
+    );
+
+}
+
+</script>
+
+</body>
+</html>
